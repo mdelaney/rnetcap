@@ -1,11 +1,15 @@
+require './protocols/ethernet/mac_address'
+
+include Protocol::Ethernet2
+
 module Protocol
   module Ethernet2
     class Frame
       attr_accessor :destination, :source, :type, :data
     
       def initialize(destination, source, type, data, crc)
-        @destination = destination
-        @source = source
+        @destination = MacAddress.new destination
+        @source = MacAddress.new source
         @type = type
         @data = data
         @crc = crc
@@ -22,13 +26,11 @@ module Protocol
       end
     
       def to_s
-        dest = @destination.map {|i| i.to_s(16).rjust(2, '0').upcase}
-        src = @source.map {|i| i.to_s(16).rjust(2, '0').upcase}
         type = @type.map {|i| i.to_s(16).rjust(2, '0').upcase}
         crc = @crc.map {|i| i.to_s(16).rjust(2, '0').upcase}
 
-        "destination: #{dest}\n" +
-        "source: #{src}\n" +
+        "destination: #{@destination}\n" +
+        "source: #{@source}\n" +
         "type: #{type}\n" +
         "crc: #{crc}\n"
       end
