@@ -10,10 +10,10 @@ while true
   pkt = capture.next
   if pkt
     puts "START"
-    pkt = pkt.bytes
+    bytes = pkt.bytes
     puts(capture.stats)
     puts "raw packet start---------"
-    dump_hex(pkt)
+    dump_hex(bytes)
     puts "raw packet end-----------"
 
     # decode EthernetII frame
